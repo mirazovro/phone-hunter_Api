@@ -45,11 +45,12 @@ const displayPhones = (phones,datalimit) => {
         phoneDiv.classList.add('col')
         phoneDiv.innerHTML = `
             <div class="card p-4">
-                        <img src="${phone.image}" class="card-img-top" alt="...">
-                        <div class="card-body">
+                            <img src="${phone.image}" class="card-img-top" alt="...">
+                            <div class="card-body">
                             <h5 class="card-title">${phone.phone_name}</h5>
-                            <p class="card-text">This is a longer card with supporting text below as a natural lead-in
-                                to additional content. This content is a little bit longer.</p>
+                            <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                            <button onclick="loadPhoneDetails('${phone.slug}')"href="#" class="btn btn-primary">Show details</button>
+                                
                         </div>
                     </div>
     
@@ -70,6 +71,16 @@ const displayPhones = (phones,datalimit) => {
         })
     
 }
+
+// search input field button kypress enter added
+document.getElementById('search-field').addEventListener('keypress', function (event) {
+    // console.log(event.key)
+    if (event.key === "Enter") {
+        processSearch(10)
+    }
+});
+
+
 // loader adding codes
 const togglSpinner = isLoading => {
     const loadersection = document.getElementById('loader');
@@ -87,4 +98,12 @@ document.getElementById('btn-show-all').addEventListener('click', function () {
     processSearch();
 
 })
+
+const loadPhoneDetails = async id => {
+    const url = `https://openapi.programming-hero.com/api/phone/${id}`
+    const res = await fetch(url);
+    const data = await res.json();
+    console.log(data.data.slug);
+    
+}
 loadPhones();
