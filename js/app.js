@@ -1,17 +1,35 @@
-const loadPhones = async (searchText) => {
+const loadPhones = async (searchText,datalimit) => {
     const url = `https://openapi.programming-hero.com/api/phones?search=${searchText}`
     const res = await fetch(url);
     const data = await res.json();
-    displayPhones(data.data)}
+    displayPhones(data.data, datalimit)}
 
+    const processSearch = (datalimit)=>{
+        togglSpinner(true);
+            const searchField = document.getElementById('search-field');
+            const searchText = searchField.value;
+            loadPhones(searchText,datalimit)
+    }
 
-const displayPhones = phones => {
+const displayPhones = (phones,datalimit) => {
     // console.log(phones)
     
     const phoneContainer = document.getElementById('phone-container');
     phoneContainer.innerText = '';
     //displsy 20 phones only
-    phones = phones.slice(0, 30);
+    const showButton = document.getElementById('show-all')
+    // console.log(datalimit)
+    if (datalimit) {
+        
+        phones = phones.slice(0,datalimit);
+        showButton.classList.remove('d-none');
+    } else {
+    
+        showButton.classList.add('d-none');
+    }
+   
+    
+   
     // display no phone found
     const noPohnes = document.getElementById('Not-found')
     if (phones.length === 0) {
@@ -42,15 +60,13 @@ const displayPhones = phones => {
         //stop loader or spinner
         togglSpinner(false);
     })
-    
 
+    
+//handle search button clicked
     document.getElementById('btn-search').addEventListener
         ('click', function () {
             //start loader
-            togglSpinner(true);
-            const searchField = document.getElementById('search-field');
-            const searchText = searchField.value;
-            loadPhones(searchText)
+            processSearch(10)
         })
     
 }
@@ -64,4 +80,11 @@ const togglSpinner = isLoading => {
     }
 }
 
+
+
+//show all button added this is the not best way
+document.getElementById('btn-show-all').addEventListener('click', function () {
+    processSearch();
+
+})
 loadPhones();
