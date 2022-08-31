@@ -114,7 +114,7 @@ const displayPhoneDetails = phone => {
     phoneDetails.innerHTML = ` <p>Reales date: ${phone.releaseDate ? phone.releaseDate : 'Not yet released'}<p>
     <P>Others: ${phone.others ? phone.others.Bluetooth : 'no blutooth found'}</p>
     <img src="${phone.image ? phone.image : 'not found'}"></img>
-    <p>Storage: ${phone.mainFeatures? phone.mainFeatures.memory: 'not found any data'}</P>
+    <p>Storage: ${phone.mainFeatures? phone.mainFeatures.memory: 'not found any '}</P>
     `
     
 }
